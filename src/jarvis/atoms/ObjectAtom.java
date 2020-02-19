@@ -6,145 +6,145 @@ import java.util.ArrayList;
 
 /*
  * Cette classe implante l'objet de base.
- * L'interpréteur comprend un objet comme
+ * L'interprï¿½teur comprend un objet comme
  * une simple liste de valeurs.
- * L'organisation de ses données est spécifiée
- * par la classe. Celle-ci peut être retrouvée
+ * L'organisation de ses donnï¿½es est spï¿½cifiï¿½e
+ * par la classe. Celle-ci peut ï¿½tre retrouvï¿½e
  * via le lien classReference.
  */
 public class ObjectAtom extends AbstractAtom {
 
-	/*
-	 * Si vous ajoutez des champs à JarvisClass
-	 * ces constantes doivent le refléter.
-	 * Elles sont utilisées pour retrouver
-	 * les membres d'une classe.
-	 * 
-	 */
-	public static final int ATTRIBUTE_FIELD =0;
-	public static final int METHOD_FIELD =1;
-	
-	/*
-	 * Référence à la classe de cet objet.
-	 */
-	private ObjectAtom classReference;
-	private ArrayList<AbstractAtom> values;
-	
-	//Référence utile pour faire des reverse lookup
-	private JarvisInterpreter ji;
+    /*
+     * Si vous ajoutez des champs ï¿½ JarvisClass
+     * ces constantes doivent le reflï¿½ter.
+     * Elles sont utilisï¿½es pour retrouver
+     * les membres d'une classe.
+     *
+     */
+    public static final int ATTRIBUTE_FIELD = 0;
+    public static final int METHOD_FIELD = 1;
+    public static final int PARENT_FIELD = 2;
 
-	
+    /*
+     * Rï¿½fï¿½rence ï¿½ la classe de cet objet.
+     */
+    private ObjectAtom classReference;
+    private ArrayList<AbstractAtom> values;
 
-	// Constructeur d'objet générique
-	// Utilisé comme raccourci par les fonctions tricheuses.
-	public ObjectAtom(ObjectAtom theClass, ArrayList<AbstractAtom> vals,JarvisInterpreter ji) {
+    //Rï¿½fï¿½rence utile pour faire des reverse lookup
+    private JarvisInterpreter ji;
 
-		classReference = theClass;
 
-		values = new ArrayList<AbstractAtom>();
-		values.addAll(vals);
-		
-		this.ji=ji;
-	}
-	
-	@Override
-	public AbstractAtom interpretNoPut(JarvisInterpreter ji) {	
-		return this;
-	}
+    // Constructeur d'objet gï¿½nï¿½rique
+    // Utilisï¿½ comme raccourci par les fonctions tricheuses.
+    public ObjectAtom(ObjectAtom theClass, ArrayList<AbstractAtom> vals, JarvisInterpreter ji) {
 
-	public ObjectAtom getJarvisClass() {
-		return classReference;
-	}
-	
-	
-	//Cas spécial où le selecteur n'est pas encore encapsulé dans un atome
-	//Supporté pour alléger la syntaxe.
-	public AbstractAtom message(String selector) {
-		
-		return message(new StringAtom(selector));
-		
-	}
-	
-    //HÉRITAGE
-	//VARIABLESCLASSE
-	/*
-	 * Algorithme de gestion des messages.
-	 * Ce bout de code a pour responsabilité de déterminer si le message
-	 * concerne un attribut ou une méthode. 
-	 * Pour implanter l'héritage, cet algorithme doit nécessairement être modifié.
-	 */	
-	public AbstractAtom message(AbstractAtom selector) {
-		
-		
-		//Va chercher les attributs
-		ListAtom members = (ListAtom) classReference.values.get(ATTRIBUTE_FIELD);
+        classReference = theClass;
 
-		//Vérifie si c'est un attribut 
-		int pos = members.find(selector);
-		
-		
-		if (pos == -1) {
-			// pas un attribut...
-			// Va chercher les méthodes
-			DictionnaryAtom methods = (DictionnaryAtom) classReference.values
-					.get(METHOD_FIELD);
+        values = new ArrayList<AbstractAtom>();
+        values.addAll(vals);
 
-			// Cherche dans le dictionnaire
-			AbstractAtom res = methods.get(selector.makeKey());
+        this.ji = ji;
+    }
 
-			if (res == null) {
-				
-				// Rien ne correspond au message
-				return new StringAtom("ComprendPas "+ selector);
-			} else {
-				//C'est une méthode.
-				return res;
-			}
+    @Override
+    public AbstractAtom interpretNoPut(JarvisInterpreter ji) {
+        return this;
+    }
 
-		}
+    public ObjectAtom getJarvisClass() {
+        return classReference;
+    }
 
-		else {
-			//C'est un attribut.
-			return values.get(pos);
-		}
-	}
 
-	public void setClass(ObjectAtom theClass) {
-		classReference = theClass;
-	}
+    //Cas spï¿½cial oï¿½ le selecteur n'est pas encore encapsulï¿½ dans un atome
+    //Supportï¿½ pour allï¿½ger la syntaxe.
+    public AbstractAtom message(String selector) {
 
-	
-	
-	//Surtout utile pour l'affichage dans ce cas-ci...
-	@Override
-	public String makeKey() {
-		String s="";
-		int i=0;
-		
-		s += "\""+ji.getEnvironment().reverseLookup(classReference)+"\":";
-		
-		for (AbstractAtom atom : values) {
-			
-			s+=" "+((ListAtom)classReference.values.get(0)).get(i).makeKey()+":";
-			if(atom instanceof ClosureAtom)
-			{
-				s+=atom;
-			}
-			else
-			{
-				s+=atom.makeKey();
-			}
-			
-			i++;
-		}
-		
-		return s;
-	}	
-	
-	public String findClassName(JarvisInterpreter ji){
-		
-		return ji.getEnvironment().reverseLookup(classReference);
-		
-	}
+        return message(new StringAtom(selector));
+
+    }
+
+    //Hï¿½RITAGE
+    //VARIABLESCLASSE
+    /*
+     * Algorithme de gestion des messages.
+     * Ce bout de code a pour responsabilitï¿½ de dï¿½terminer si le message
+     * concerne un attribut ou une mï¿½thode.
+     * Pour implanter l'hï¿½ritage, cet algorithme doit nï¿½cessairement ï¿½tre modifiï¿½.
+     */
+    public AbstractAtom message(AbstractAtom selector) {
+
+
+        //Va chercher les attributs
+        ListAtom members = (ListAtom) classReference.values.get(ATTRIBUTE_FIELD);
+
+        //Vï¿½rifie si c'est un attribut
+        int pos = members.find(selector);
+
+
+        if (pos == -1) {
+            AbstractAtom res = classReference.findMethod(selector);
+            return res;
+        } else {
+            //C'est un attribut.
+            return values.get(pos);
+        }
+    }
+
+    public AbstractAtom findMethod(AbstractAtom selector) {
+        // pas un attribut...
+        // Va chercher les mï¿½thodes
+        DictionnaryAtom methods = (DictionnaryAtom) values
+                .get(METHOD_FIELD);
+
+        // Cherche dans le dictionnaire
+        AbstractAtom res = methods.get(selector.makeKey());
+
+        if (res == null) {
+            if (values.get(PARENT_FIELD) instanceof NullAtom) {
+                return new StringAtom("ComprendPas " + selector);
+            } else {
+				((ObjectAtom) values.get(PARENT_FIELD)).findMethod(selector);
+            }
+        }
+
+        return res;
+
+    }
+
+    public void setClass(ObjectAtom theClass) {
+        classReference = theClass;
+    }
+
+
+    //Surtout utile pour l'affichage dans ce cas-ci...
+    @Override
+    public String makeKey() {
+        String s = "";
+        int i = 0;
+
+        s += "\"" + ji.getEnvironment().reverseLookup(classReference) + "\":";
+
+        for (AbstractAtom atom : values) {
+
+            s += " " + ((ListAtom) classReference.values.get(0)).get(i).makeKey() + ":";
+            if (atom instanceof ClosureAtom) {
+                s += atom;
+            } else {
+                s += atom.makeKey();
+            }
+
+            i++;
+        }
+
+        return s;
+    }
+
+    public String findClassName(JarvisInterpreter ji) {
+
+        return ji.getEnvironment().reverseLookup(classReference);
+
+    }
 
 }

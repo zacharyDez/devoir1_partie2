@@ -2,17 +2,17 @@
 !load JarvisLib/util.txt
 !mute
 
-#Attention! Vous devez modifier ce test pour établir le lien d'héritage entre les classes.
-#L'écriture peut varier selon votre implémentation.
-#D'autres tests devront être modifiés après que l'héritage ait été défini.
-#N'oubliez pas de modifier rétroactivement vos autres tests.
-#Une fois la deuxième partie de l'héritage implantée, ce test ne peut pas fonctionner tel quel, les membres
-#seront dupliqués! Vous pouvez le rétro-modifier, ou le laisser tel quel. Si vous avez correctement
-#implanté l'héritage de membres, ce test sera ignoré, étant donné que l'héritage de méthodes est
-#également testé dans heritagemembres.txt
+#Attention! Vous devez modifier ce test pour ï¿½tablir le lien d'hï¿½ritage entre les classes.
+#L'ï¿½criture peut varier selon votre implï¿½mentation.
+#D'autres tests devront ï¿½tre modifiï¿½s aprï¿½s que l'hï¿½ritage ait ï¿½tï¿½ dï¿½fini.
+#N'oubliez pas de modifier rï¿½troactivement vos autres tests.
+#Une fois la deuxiï¿½me partie de l'hï¿½ritage implantï¿½e, ce test ne peut pas fonctionner tel quel, les membres
+#seront dupliquï¿½s! Vous pouvez le rï¿½tro-modifier, ou le laisser tel quel. Si vous avez correctement
+#implantï¿½ l'hï¿½ritage de membres, ce test sera ignorï¿½, ï¿½tant donnï¿½ que l'hï¿½ritage de mï¿½thodes est
+#ï¿½galement testï¿½ dans heritagemembres.txt
 
 
-#Définition de la classe Félin
+#Dï¿½finition de la classe Fï¿½lin
 !{.
 
 	!{.
@@ -30,14 +30,14 @@
 	
 	["son" sonFonction "manger" mangerFonction]
 	
-	
+	Object
 	
 	!(Class new)
 }
 !a
 !ref Felin
 
-#Définition de la classe Chat
+#Dï¿½finition de la classe Chat
 !{.
 
 	!{.
@@ -58,29 +58,30 @@
 	
 	["son" sonFonction "ageHumain" fonctionAgeHumain]
 	
-	
+	Felin
 	
 	!(Class new)
 }
 !a
 !ref Chat
 
-#Définition de la classe Chat Domestique
+#Dï¿½finition de la classe Chat Domestique
 !{.
 	
 	("description" "age" "nom")
 	
 	[]	
-	
-	
+
+	Chat
+
 	!(Class new)
 }
 !a
 !ref ChatDom
 
 
-#Tests avec Félin
-!(Felin new "Ceci-est-un-félin")
+#Tests avec Fï¿½lin
+!(Felin new "Ceci-est-un-fï¿½lin")
 !ref lefelin
 
 !(lefelin description)
