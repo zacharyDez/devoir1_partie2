@@ -1,0 +1,83 @@
+!mute
+
+#Fonction qui imprime la valeur d'un objet de type entier
+!{ num .
+
+	!(num value)
+	!p
+	!c
+}
+!ref pint
+
+#Fonction qui imprime la valeur d'un objet de type booléen
+!{ tv .
+
+	!(tv value)
+	!p
+	!c
+}
+!ref pbool
+
+# Fonction qui soustrait x-y (fonction vrai: xGreater)
+!{.
+    !(x - y)
+}
+!ref xGreater
+
+# Fonction qui soustrait y-x (fonction faux: xSmaller)
+!{.
+    !(y - x)
+}
+!ref xSmaller
+
+# Nouvel objet ifelse qui a pour membres: vrai = xGreater et faux = xSmaller
+!(ifelse new xGreater xSmaller)
+!ref calcValAbsolue
+
+
+#Fonction qui calcule la valeur absolue de la somme de deux Int
+!{ x y .
+
+    # Test. Retourne un objet booleen.
+    !(x > y)
+    !ref xGreater
+
+    #Récupère l'atome booléen du résultat (donc vrai ou faux)
+    !(xGreater value)
+    !ref vraifaux
+    #Va chercher le membre vrai ou le membre faux selon
+    #la valeur de l'atome booléen (il sert de sélecteur).
+    !(calcValAbsolue vraifaux)
+}
+!ref valAbsolue
+
+#Quelques tests...
+# valAbsolue de a,b devrait etre la meme que valAbsolue c,d
+
+#!(int new 94)
+#!ref a
+
+#!(int new 35)
+#!ref b
+
+#a
+#b
+
+#valAbsolue
+
+#pint
+
+#!(int new 35)
+#!ref c
+
+#!(int new 94)
+#!ref d
+
+#c
+#d
+
+#valAbsolue
+
+#pint
+
+#!unmute
