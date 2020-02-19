@@ -1,0 +1,97 @@
+!load JarvisLib/basictypes.txt
+!load JarvisLib/util.txt
+!mute
+
+#Attention! Vous devez modifier ce test pour établir le lien d'héritage entre les classes.
+#L'écriture peut varier selon votre implémentation.
+#D'autres tests devront être modifiés après que l'héritage ait été défini.
+#N'oubliez pas de modifier rétroactivement vos autres tests.
+#Une fois la deuxième partie de l'héritage implantée, ce test ne peut pas fonctionner tel quel, les membres
+#seront dupliqués! Vous pouvez le rétro-modifier, ou le laisser tel quel. Si vous avez correctement
+#implanté l'héritage de membres, ce test sera ignoré, étant donné que l'héritage de méthodes est
+#également testé dans heritagemembres.txt
+
+
+#Définition de la classe Point
+!{.
+
+	!{.
+		0 !p !c
+	}
+	!ref dimFonction
+
+    !{.
+    		2 !p !c
+    }
+    !ref nbParamsFonction
+
+	("x" "y")
+
+	["dim" dimFonction "nbParams" nbParamsFonction]
+
+	Object
+
+	!(Class new)
+}
+!a
+!ref Point
+
+#Définition de la classe Point3D
+!{.
+
+
+	!{.
+        3 !p !c
+    }
+    !ref nbParamsFonction
+
+	("x" "y" "z")
+
+    ["nbParams" nbParamsFonction]
+
+    Point
+
+	!(Class new)
+}
+!a
+!ref Point3D
+
+
+# Test avec Point
+!(Point new "6" "8")
+!ref lePoint
+
+!(lePoint x)
+!p !c
+
+!(lePoint y)
+!p !c
+
+!(lePoint dim)
+!p !c
+
+!(lePoint nbParams)
+!p !c
+
+
+#Tests avec Point3D
+# Pour le moment constructor seulement avec les attributs de points
+# Resolution de seulement les methodes
+!(Point3D new "10" "12" "14")
+!ref lePoint3D
+
+!(lePoint3D x)
+!p !c
+
+!(lePoint3D y)
+!p !c
+
+# doit retourner la fonction du Point pas 3D (alors 0)!
+!(lePoint3D dim)
+!p !c
+
+!(lePoint3D nbParams)
+!p !c
+
+
+!unmute
