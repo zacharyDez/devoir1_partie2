@@ -1,0 +1,150 @@
+!load JarvisLib/basictypes.txt
+!load JarvisLib/util.txt
+!mute
+
+#Attention! Vous devez modifier ce test pour �tablir le lien d'h�ritage entre les classes.
+#L'�criture peut varier selon votre impl�mentation.
+#D'autres tests devront �tre modifi�s apr�s que l'h�ritage ait �t� d�fini.
+#N'oubliez pas de modifier r�troactivement vos autres tests.
+#Une fois la deuxi�me partie de l'h�ritage implant�e, ce test ne peut pas fonctionner tel quel, les membres
+#seront dupliqu�s! Vous pouvez le r�tro-modifier, ou le laisser tel quel. Si vous avez correctement
+#implant� l'h�ritage de membres, ce test sera ignor�, �tant donn� que l'h�ritage de m�thodes est
+#�galement test� dans heritagemembres.txt
+
+
+#D�finition de la classe F�lin
+!{.
+
+	!{.
+		"silence..."
+	}
+	!ref sonFonction
+	
+	!{.
+		"Miamscrunchscrunch"
+	}
+	!ref mangerFonction
+	
+	
+	("description")
+	
+	["son" sonFonction "manger" mangerFonction]
+	
+	Object
+	
+	!(Class new)
+}
+!a
+!ref Felin
+
+#D�finition de la classe Chat
+!{.
+
+	!{.
+		"Meow"
+	}
+	!ref sonFonction	
+	
+	
+	!{.
+		!(self age)
+		!(int new)
+		!(!a * 4)
+		!(!a value)		
+	}
+	!ref fonctionAgeHumain
+	
+	("description" "age")
+	
+	["son" sonFonction "ageHumain" fonctionAgeHumain]
+	
+	Felin
+	
+	!(Class new)
+}
+!a
+!ref Chat
+
+#D�finition de la classe Chat Domestique
+!{.
+	
+	("description" "age" "nom")
+	
+	[]	
+
+	Chat
+
+	!(Class new)
+}
+!a
+!ref ChatDom
+
+
+#Tests avec F�lin
+!(Felin new "Ceci-est-un-f�lin")
+!ref lefelin
+
+!(lefelin description)
+!p
+!c
+!(lefelin son)
+!p
+!c
+!(lefelin manger)
+!p
+!c
+
+
+#Tests avec Chat
+!(Chat new "Ceci-est-un-chat" 8)
+!ref lechat
+
+!(lechat description)
+!p
+!c
+!(lechat age)
+!p
+!c
+!(lechat son)
+!p
+!c
+!(lechat manger)
+!p
+!c
+
+!(lechat ageHumain)
+!p
+!c
+
+
+
+#Tests avec ChatDom
+!(ChatDom new "Ceci-est-un-chat-domestique" 5 "Mistigri")
+!ref lechatdom
+
+!(lechatdom description)
+!p
+!c
+!(lechatdom age)
+!p
+!c
+!(lechatdom son)
+!p
+!c
+
+!(lechatdom manger)
+!p
+!c
+
+!(lechatdom nom)
+!p
+!c
+
+!(lechatdom ageHumain)
+!p
+!c
+
+
+
+	
+!unmute

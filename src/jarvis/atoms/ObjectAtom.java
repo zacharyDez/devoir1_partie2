@@ -95,18 +95,18 @@ public class ObjectAtom extends AbstractAtom {
     public AbstractAtom findMethod(AbstractAtom selector) {
         // pas un attribut...
         // Va chercher les m�thodes
-        DictionnaryAtom methods = (DictionnaryAtom) values
-                .get(METHOD_FIELD);
+        DictionnaryAtom methods = (DictionnaryAtom) values.get(METHOD_FIELD);
 
         // Cherche dans le dictionnaire
         AbstractAtom res = methods.get(selector.makeKey());
 
-        if (res == null) {
-            if (values.get(PARENT_FIELD) instanceof NullAtom) {
-                return new StringAtom("ComprendPas " + selector);
+		if (res == null) {
+
+			if (values.get(PARENT_FIELD) instanceof NullAtom) {
+				return new StringAtom("ComprendPas" + selector);
             } else {
-				((ObjectAtom) values.get(PARENT_FIELD)).findMethod(selector);
-            }
+				return ((ObjectAtom) values.get(PARENT_FIELD)).findMethod(selector);
+			}
         }
 
         return res;
