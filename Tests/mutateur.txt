@@ -17,6 +17,7 @@ Object
 !(lepoint set "x" 5)
 !p
 !c
+
 !(lepoint x)
 !p
 !c

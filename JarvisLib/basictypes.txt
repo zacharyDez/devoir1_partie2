@@ -4,7 +4,7 @@
 #H�RITAGE: il manque la classe Object.
 # Vous devriez la d�finir ici.
 ()
-[]
+["set" _setPrimitive]
 null
 !(Class new)
 !ref Object

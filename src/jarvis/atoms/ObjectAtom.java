@@ -147,4 +147,7 @@ public class ObjectAtom extends AbstractAtom {
 
     }
 
+    public void setValue(int idx, AbstractAtom val) {
+        values.set(idx, val);
+    }
 }
