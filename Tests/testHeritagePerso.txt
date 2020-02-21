@@ -45,7 +45,7 @@
     }
     !ref nbParamsFonction
 
-	("x" "y" "z")
+	("z")
 
     ["nbParams" nbParamsFonction]
 

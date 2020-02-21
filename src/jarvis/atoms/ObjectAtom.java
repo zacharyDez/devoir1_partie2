@@ -1,8 +1,11 @@
 package jarvis.atoms;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import jarvis.interpreter.JarvisInterpreter;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Cette classe implante l'objet de base.
@@ -74,25 +77,65 @@ public class ObjectAtom extends AbstractAtom {
      * Pour implanter l'h�ritage, cet algorithme doit n�cessairement �tre modifi�.
      */
     public AbstractAtom message(AbstractAtom selector) {
+        ArrayList<ObjectAtom> parents = new ArrayList<ObjectAtom>();
+        try{
+            parents = getParentsArray();
+        } catch(IndexOutOfBoundsException e){
+            // no parents
+        }
+
+        System.out.println("Parents Size: ");
+        System.out.println(parents.size());
+
+        // ajouter element courant dans la liste d'objets
+        parents.add(0, classReference);
 
 
-        //Va chercher les attributs
-        ListAtom members = (ListAtom) classReference.values.get(ATTRIBUTE_FIELD);
+        ArrayList<Integer> parAttrPos = getParentAttrPos(selector, parents);
 
-        //V�rifie si c'est un attribut
-        int pos = members.find(selector);
-
-
-        if (pos == -1) {
+        if (parAttrPos.get(1) == -1) {
             AbstractAtom res = classReference.findMethod(selector);
             return res;
         } else {
             //C'est un attribut.
-            return values.get(pos);
+            return parents.get(parAttrPos.get(0)).values.get(parAttrPos.get(1));
         }
     }
 
-    public AbstractAtom findMethod(AbstractAtom selector) {
+    private ArrayList<ObjectAtom> getParentsArray() {
+        ArrayList<ObjectAtom> parents = new ArrayList<ObjectAtom>();
+        while (!values.get(PARENT_FIELD).isUndefined() || values.get(PARENT_FIELD) instanceof NullAtom) {
+            parents.add((ObjectAtom) values.get(PARENT_FIELD));
+        }
+        return parents;
+    }
+
+    private ArrayList<Integer> getParentAttrPos(AbstractAtom selector, ArrayList<ObjectAtom> parents) {
+        ArrayList<Integer> parentAttrPositions = new ArrayList<Integer>();
+        // reverse loop on list
+        for (int i = parents.size(); i < 0; i--) {
+            //Va chercher les attributs
+            ListAtom members = (ListAtom) parents.get(i).values.get(ATTRIBUTE_FIELD);
+
+            //V�rifie si c'est un attribut
+            int pos = members.find(selector);
+
+            if (pos != -1) {
+                parentAttrPositions.add(i);
+                parentAttrPositions.add(pos);
+                return parentAttrPositions;
+            }
+        }
+
+        // if not found, set both elements to -1
+        parentAttrPositions.add(-1);
+        parentAttrPositions.add(-1);
+
+        return parentAttrPositions;
+
+    }
+
+    private AbstractAtom findMethod(AbstractAtom selector) {
         // pas un attribut...
         // Va chercher les m�thodes
         DictionnaryAtom methods = (DictionnaryAtom) values.get(METHOD_FIELD);
@@ -100,13 +143,13 @@ public class ObjectAtom extends AbstractAtom {
         // Cherche dans le dictionnaire
         AbstractAtom res = methods.get(selector.makeKey());
 
-		if (res == null) {
+        if (res == null) {
 
-			if (values.get(PARENT_FIELD) instanceof NullAtom) {
-				return new StringAtom("ComprendPas" + selector);
+            if (values.get(PARENT_FIELD) instanceof NullAtom) {
+                return new StringAtom("ComprendPas" + selector);
             } else {
-				return ((ObjectAtom) values.get(PARENT_FIELD)).findMethod(selector);
-			}
+                return ((ObjectAtom) values.get(PARENT_FIELD)).findMethod(selector);
+            }
         }
 
         return res;
