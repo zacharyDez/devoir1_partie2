@@ -2,7 +2,9 @@ package jarvis.atoms;
 
 import jarvis.interpreter.JarvisInterpreter;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Cette classe implante l'objet de base.
@@ -77,7 +79,7 @@ public class ObjectAtom extends AbstractAtom {
 
 
         //Va chercher les attributs
-        ListAtom members = (ListAtom) classReference.values.get(ATTRIBUTE_FIELD);
+        ListAtom members = (ListAtom) classReference.getAttributes();
 
         //V�rifie si c'est un attribut
         int pos = members.find(selector);
@@ -90,6 +92,24 @@ public class ObjectAtom extends AbstractAtom {
             //C'est un attribut.
             return values.get(pos);
         }
+    }
+
+    public ListAtom getAttributes(){
+        //Va chercher les attributs
+        ListAtom members = (ListAtom) values.get(ATTRIBUTE_FIELD);
+        AbstractAtom parent = values.get(PARENT_FIELD);
+
+        ListAtom tmpMembers = new ListAtom();
+
+        if(!(parent instanceof NullAtom)){
+            tmpMembers = ((ObjectAtom) parent).getAttributes();
+        }
+
+        for(int i=0; i<members.size(); i++){
+            tmpMembers.add(members.get(i));
+        }
+
+        return tmpMembers;
     }
 
     public AbstractAtom findMethod(AbstractAtom selector) {

@@ -12,12 +12,7 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
-import jarvis.atoms.AbstractAtom;
-import jarvis.atoms.CommandAtom;
-import jarvis.atoms.DictionnaryAtom;
-import jarvis.atoms.ListAtom;
-import jarvis.atoms.ObjectAtom;
-import jarvis.atoms.StringAtom;
+import jarvis.atoms.*;
 import jarvis.atoms.primitives.OperatorNewPrimitive;
 
 import jarvis.atoms.primitives.OperatorSetPrimitive;
@@ -207,9 +202,11 @@ public class JarvisInterpreter {
 		 * liste des attributs dictionnaire de m�thodes cr��s plus haut.
 		 */
 		ArrayList<AbstractAtom> data = new ArrayList<AbstractAtom>();
+		NullAtom parent = new NullAtom();
 
 		data.add(members);
 		data.add(methods);
+		data.add(parent);
 
 		ObjectAtom ClassClass = new ObjectAtom(null, data, this);
 
